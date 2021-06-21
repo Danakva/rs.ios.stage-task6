@@ -18,6 +18,10 @@ struct Game: GameCompatible {
 extension Game {
 
     func defineFirstAttackingPlayer(players: [Player]) -> Player? {
-        nil
+        players.sorted { first, last in
+            let firstCard = first.hand?.filter { $0.isTrump }.sorted { $0.value.rawValue < $1.value.rawValue }.first?.value
+            let lastCard = last.hand?.filter { $0.isTrump }.sorted { $0.value.rawValue < $1.value.rawValue }.first?.value
+            return firstCard?.rawValue ?? 0 < lastCard?.rawValue ?? 0
+        }.first
     }
 }

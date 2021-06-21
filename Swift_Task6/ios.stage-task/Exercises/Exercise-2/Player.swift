@@ -15,10 +15,12 @@ final class Player: PlayerBaseCompatible {
     var hand: [Card]?
 
     func checkIfCanTossWhenAttacking(card: Card) -> Bool {
-        false
+        return hand?.filter { $0.value == card.value }.count ?? 0 > 0
     }
 
     func checkIfCanTossWhenTossing(table: [Card: Card]) -> Bool {
-        false
+        guard let hand = hand else { return false }
+        let myHand = Set(hand.map { $0.value })
+        return myHand.intersection(table.keys.map { $0.value }).count > 0 || myHand.intersection(table.values.map { $0.value }).count > 0
     }
 }
